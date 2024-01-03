@@ -7,6 +7,7 @@ import Box from "./assets/components/Box.jsx";
 import MoviesList from "./assets/components/MoviesList.jsx";
 import WatchedSummary from "./assets/components/WatchedSummary.jsx";
 import WatchedMoviesList from "./assets/components/WatchedMoviesList.jsx";
+import StarRating from "./assets/components/StarRating.jsx";
 
 const tempMovieData = [
   {
