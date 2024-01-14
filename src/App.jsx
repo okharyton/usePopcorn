@@ -1,6 +1,6 @@
 import Navbar from "./assets/components/Navbar.jsx";
 import Main from "./assets/components/Main.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "./assets/components/Search.jsx";
 import NumResults from "./assets/components/NumResults.jsx";
 import Box from "./assets/components/Box.jsx";
@@ -56,12 +56,23 @@ const tempWatchedData = [
   },
 ];
 
+const KEY = "5588ff90";
+
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=inception
+`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMovies(data.Search);
+      });
+  }, []);
   return (
     <>
       <Navbar>

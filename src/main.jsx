@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-// import "./index.css";
+import "./index.css";
 import StarRating from "./assets/components/StarRating.jsx";
 import Test from "./assets/components/Test.jsx";
 import { setMovieRating } from "./assets/components/StarRating.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    {/*<App />*/}
+    <App />
     <StarRating
       maxRating={5}
       messages={["Terrible", "Bad", "Okay", "Good", "Amazing"]}
