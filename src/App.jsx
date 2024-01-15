@@ -8,6 +8,7 @@ import MoviesList from "./assets/components/MoviesList.jsx";
 import WatchedSummary from "./assets/components/WatchedSummary.jsx";
 import WatchedMoviesList from "./assets/components/WatchedMoviesList.jsx";
 import StarRating from "./assets/components/StarRating.jsx";
+import Loader from "./assets/components/Loader.jsx";
 
 const tempMovieData = [
   {
@@ -64,14 +65,17 @@ const average = (arr) =>
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const query = "matrix";
 
   useEffect(() => {
     async function fetchMovies() {
+      setIsLoading(true);
       const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}
 `);
       const data = await res.json();
       setMovies(data.Search);
+      setIsLoading(false);
     }
     fetchMovies();
   }, []);
@@ -88,7 +92,11 @@ export default function App() {
         tempWatchedData={tempWatchedData}
       >
         <Box tempMovieData={tempMovieData} movies={movies}>
-          <MoviesList tempMovieData={tempMovieData} movies={movies} />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <MoviesList tempMovieData={tempMovieData} movies={movies} />
+          )}
         </Box>
         <Box>
           <WatchedSummary
