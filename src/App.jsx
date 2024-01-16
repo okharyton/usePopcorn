@@ -7,7 +7,6 @@ import Box from "./assets/components/Box.jsx";
 import MoviesList from "./assets/components/MoviesList.jsx";
 import WatchedSummary from "./assets/components/WatchedSummary.jsx";
 import WatchedMoviesList from "./assets/components/WatchedMoviesList.jsx";
-import StarRating from "./assets/components/StarRating.jsx";
 import Loader from "./assets/components/Loader.jsx";
 import ErrorMessage from "./assets/components/ErrorMessage.jsx";
 
@@ -68,12 +67,14 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "asdasd";
+  const [query, setQuery] = useState("");
+  const tempQuery = "Gladiator";
 
   useEffect(() => {
     async function fetchMovies() {
       try {
         setIsLoading(true);
+        setError("");
         const res =
           await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}
 `);
@@ -92,13 +93,20 @@ export default function App() {
         setIsLoading(false);
       }
     }
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
     fetchMovies();
-  }, []);
+  }, [query]);
 
   return (
     <>
       <Navbar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </Navbar>
       <Main
