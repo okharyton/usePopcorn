@@ -9,6 +9,7 @@ import WatchedSummary from "./assets/components/WatchedSummary.jsx";
 import WatchedMoviesList from "./assets/components/WatchedMoviesList.jsx";
 import Loader from "./assets/components/Loader.jsx";
 import ErrorMessage from "./assets/components/ErrorMessage.jsx";
+import MovieDetails from "./assets/components/MovieDetails.jsx";
 
 const tempMovieData = [
   {
@@ -68,7 +69,15 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
-  const tempQuery = "Gladiator";
+  const [selectedId, setSelectedId] = useState(null);
+
+  function handleSelectMovie(id) {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
 
   useEffect(() => {
     async function fetchMovies() {
@@ -117,18 +126,32 @@ export default function App() {
         <Box tempMovieData={tempMovieData} movies={movies}>
           {isLoading && <Loader />}
           {!isLoading && !error && (
-            <MoviesList tempMovieData={tempMovieData} movies={movies} />
+            <MoviesList
+              tempMovieData={tempMovieData}
+              movies={movies}
+              onSelectMovie={handleSelectMovie}
+            />
           )}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          <WatchedSummary
-            tempWatchedData={tempWatchedData}
-            average={average}
-            watched={watched}
-            movies={movies}
-          />
-          <WatchedMoviesList movies={movies} watched={watched} />
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <>
+              (
+              <WatchedSummary
+                tempWatchedData={tempWatchedData}
+                average={average}
+                watched={watched}
+                movies={movies}
+              />
+              <WatchedMoviesList movies={movies} watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>
