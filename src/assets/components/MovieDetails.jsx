@@ -8,8 +8,9 @@ export default function MovieDetails({
   KEY,
   onAddWatched,
   watched,
+  movie,
+  setMovie,
 }) {
-  const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
 
@@ -57,6 +58,7 @@ export default function MovieDetails({
     }
     getMovieDetails();
   }, [selectedId]);
+
   return (
     <div className="details">
       {isLoading ? (

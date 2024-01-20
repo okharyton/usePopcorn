@@ -70,6 +70,7 @@ export default function App() {
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [movie, setMovie] = useState({});
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -120,6 +121,23 @@ export default function App() {
     fetchMovies();
   }, [query]);
 
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = movie;
+
+  useEffect(() => {
+    if (title) document.title = `Movie | ${title}`;
+  }, [movie]);
+
   return (
     <>
       <Navbar>
@@ -150,10 +168,11 @@ export default function App() {
               onCloseMovie={handleCloseMovie}
               onAddWatched={handleAddWatched}
               watched={watched}
+              movie={movie}
+              setMovie={setMovie}
             />
           ) : (
             <>
-              (
               <WatchedSummary
                 tempWatchedData={tempWatchedData}
                 average={average}
