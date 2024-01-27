@@ -109,9 +109,8 @@ export default function App() {
         setMovies(data.Search);
         setError("");
       } catch (err) {
-        console.error(err.message);
-
         if (err.message !== "AbortError") {
+          console.log(err.message);
           setError(err.message);
         }
       } finally {
@@ -124,6 +123,8 @@ export default function App() {
       setError("");
       return;
     }
+
+    handleCloseMovie();
 
     fetchMovies();
 
@@ -151,7 +152,6 @@ export default function App() {
 
     return () => {
       document.title = "UserPopcorn";
-      console.log(`Clean up effect for movie ${title}`);
     };
   }, [title]);
 
@@ -182,7 +182,7 @@ export default function App() {
             <MovieDetails
               KEY={KEY}
               selectedId={selectedId}
-              onCloseMovie={handleCloseMovie}
+              handleCloseMovie={handleCloseMovie}
               onAddWatched={handleAddWatched}
               watched={watched}
               movie={movie}

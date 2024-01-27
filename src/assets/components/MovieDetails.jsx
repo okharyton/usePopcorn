@@ -4,7 +4,7 @@ import Loader from "./Loader.jsx";
 
 export default function MovieDetails({
   selectedId,
-  onCloseMovie,
+  handleCloseMovie,
   KEY,
   onAddWatched,
   watched,
@@ -43,7 +43,7 @@ export default function MovieDetails({
       userRating,
     };
     onAddWatched(newWatchedMovie);
-    onCloseMovie();
+    handleCloseMovie();
   }
 
   useEffect(() => {
@@ -59,6 +59,22 @@ export default function MovieDetails({
     getMovieDetails();
   }, [selectedId]);
 
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          handleCloseMovie();
+        }
+      }
+      document.addEventListener("keydown", callback);
+
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [handleCloseMovie],
+  );
+
   return (
     <div className="details">
       {isLoading ? (
@@ -66,7 +82,7 @@ export default function MovieDetails({
       ) : (
         <>
           <header>
-            <button className="btn-back" onClick={onCloseMovie}>
+            <button className="btn-back" onClick={handleCloseMovie}>
               &larr;
             </button>
             <img src={poster} alt={`Poster Of ${movie} movie`} />
