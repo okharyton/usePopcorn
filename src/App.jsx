@@ -135,8 +135,14 @@ export default function App() {
   } = movie;
 
   useEffect(() => {
-    if (title) document.title = `Movie | ${title}`;
-  }, [movie]);
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+
+    return () => {
+      document.title = "UserPopcorn";
+      console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
 
   return (
     <>
